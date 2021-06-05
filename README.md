@@ -30,9 +30,6 @@ https://www.youtube.com/watch?v=Jjp7u3_LPoo
 ![IMG_1081](https://user-images.githubusercontent.com/2395780/120425441-10ea6300-c323-11eb-9cb5-49adbdbd47fe.jpeg)
 
 
-
-
-
 # Usage
 1. Download Vendor Monkey app
 2. Turn on and connect RJ-2035B printer device to bluetooth on your phone.
@@ -42,6 +39,21 @@ https://www.youtube.com/watch?v=Jjp7u3_LPoo
 <img width="392" alt="Screen Shot 2021-06-01 at 9 30 27 PM" src="https://user-images.githubusercontent.com/2395780/120424509-59a11c80-c321-11eb-9c60-0bffc2a6c08c.png">
 
 
+# Vendor Monkey 2.0
+- Allow user to save multiple templates for future printing purposes
+
+![new](https://user-images.githubusercontent.com/2395780/120900652-d0246f80-c5ea-11eb-9bfa-8984ccfcfa98.jpeg)
+
+
+![saved](https://user-images.githubusercontent.com/2395780/120900675-fcd88700-c5ea-11eb-9d87-539542be9582.jpeg)
+
+
+
+
+
+
+
+
 # Future Updates
-- Allow user to save multiple templates
+- Allow user to choose from multiple premade templates
 - Allow user to customize "Did you know?" tips
