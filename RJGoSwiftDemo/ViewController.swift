@@ -17,13 +17,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
     
     @IBOutlet weak var selectedLogoLbl: UILabel!
     @IBOutlet weak var selectedMapLbl: UILabel!
-    @IBOutlet weak var derpTestLbl: UILabel!
-    
-    @IBOutlet weak var derpTestField: UITextField!
-    
     
     // MARK: - Properties
-    let userDefaults = UserDefaults.standard // save company manager
+    var userDefaults = UserDefaults.standard // save company manager
     let companyManager = CompanyManager()
     var companyModel = CompanyModel()
     
@@ -51,15 +47,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.tag == 1 {         // company name text field
             if let text = textField.text {
-                companyModel.companyName = "TEXT 5,460,\"2\",0,2,2,\"" + text + "\"\r\n"
+                companyModel.companyName = text
             }
         } else if textField.tag == 2 { // qr link text field
             if let text = textField.text { // 37
-                companyModel.qrLink = "QRCODE 100,1100, L, 6, M, 0, M2, \"B0049" + text + "\"\r\n"
+                companyModel.qrLink = text
             }
         } else if textField.tag == 3 { // street address text field
             if let text = textField.text {
-                companyModel.companyStreetAddress = "BLOCK 20,500,350,40,\"0\",0,8,8,5,2,\"" + text + "\"\r\n"
+                companyModel.companyStreetAddress = text
             }
         } else if textField.tag == 4 { // phone number text field
             if let text = textField.text {
@@ -104,9 +100,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
             lib.downloadpcx(absolutePath, asName: companyModel.companyLogoFileName)
             lib.sendCommand(companyModel.companyLogo)
             // COMPANY NAME
-            lib.sendCommand(companyModel.companyName)
+            lib.sendCommand(placeName(companyModel.companyName))
             // COMPANY ADDRESS
-            lib.sendCommand(companyModel.companyStreetAddress)
+            lib.sendCommand(placeAddress(companyModel.companyStreetAddress))
             // COMPANY PHONE NUMBER
             lib.windowsfont(80, y: 520, height: 24, rotation: 0, style: 0, withUnderline: 0, fontName: "Arial-ItalicMT", content: "TEL \(companyModel.companyPhoneNumber)")
             // =================================
@@ -121,7 +117,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
             lib.downloadpcx(absolutePath, asName: companyModel.companyMapFileName)
             lib.sendCommand(companyModel.companyMap)
             // QR CODE
-            lib.sendCommand(companyModel.qrLink)
+            lib.sendCommand(placeQrLink(companyModel.qrLink))
             // SCAN FOR PET
             lib.printerfont("20", y: "1300", fontName: "3", rotation: "0", magnificationRateX: "1", magnificationRateY: "1", content: "SCAN FOR PET OF THE DAY\"\r\n")
             // =================================
@@ -142,12 +138,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
             print(error.localizedDescription)
         }
         
+        let alert = UIAlertController(title: "Save Successful", message: "Printing template has been saved.", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            
+            self.selectedLogoLbl.text = "(No logo selected)"
+            self.selectedMapLbl.text = "(No map selected)"
+            self.companyNameTextField.text = ""
+            self.companyStreetAddressTextfield.text = ""
+            self.companyPhoneNumberTextfield.text = ""
+            self.qrTextField.text = ""
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        
+        
     }
     
-    @IBAction func derpPressed(_ sender: Any) {
-        print(userDefaults.value(forKey: "DerpTest"))
-        derpTestLbl.text = userDefaults.value(forKey: "DerpTest") as! String
-    }
+
     
     @IBAction func uploadLogoPressed(_ sender: Any) {
         uploadLogoBtn.isSelected = true
@@ -196,8 +205,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
         companyPhoneNumberTextfield.autocorrectionType = .no
         companyPhoneNumberTextfield.delegate = self
         
-        derpTestField.delegate = self
-        
         printBtn.layer.cornerRadius = 5
         uploadLogoBtn.layer.cornerRadius = 5
         uploadMapBtn.layer.cornerRadius = 5
@@ -219,28 +226,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIDocumentPickerDel
 
 
 // MARK: - Helper Functions
-//func placeLogo() -> String {
-//    return "PUTPCX 80,190,\"" + companyModel.companyLogoFileName + "\"\r\n"
-//}
-//
-//func placeMap() -> String {
-//    return "PUTPCX 80,760,\"" + companyModel.companyMapFileName + "\"\r\n"
-//}
-//
-//func placeName() -> String {
-//    return "TEXT 5,460,\"2\",0,2,2,\"" + text + "\"\r\n"
-//}
-//
-//func placeQrLink() -> String {
-//    return "QRCODE 100,1100, L, 6, M, 0, M2, \"B0049" + text + "\"\r\n"
-//}
-//
-//func placeAddress() -> String {
-//    return "BLOCK 20,500,350,40,\"0\",0,8,8,5,2,\"" + text + "\"\r\n"
-//}
+func placeLogo(_ companyLogoFileName: String) -> String {
+    return "PUTPCX 80,190,\"" + companyLogoFileName + "\"\r\n"
+}
 
+func placeMap(_ companyMapFileName: String) -> String {
+    return "PUTPCX 80,760,\"" + companyMapFileName + "\"\r\n"
+}
 
+func placeName(_ companyName: String) -> String {
+    return "TEXT 5,460,\"2\",0,2,2,\"" + companyName + "\"\r\n"
+}
 
+func placeQrLink(_ qrLink: String) -> String {
+    return "QRCODE 100,1100, L, 6, M, 0, M2, \"B0049" + qrLink + "\"\r\n"
+}
+
+func placeAddress(_ address: String) -> String {
+    return "BLOCK 20,500,350,40,\"0\",0,8,8,5,2,\"" + address + "\"\r\n"
+}
 
 // MARK: - Extensions
 protocol ObjectSavable {
