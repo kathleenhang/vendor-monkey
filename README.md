@@ -58,4 +58,4 @@ https://www.youtube.com/watch?v=Jjp7u3_LPoo
 - Allow user to choose from multiple premade templates
 - Allow user to customize "Did you know?" tips
 - Add company logo/map image thumbnails for each saved card template
-- Support more commonly used filetypes (PDF, PNG, JPEG)
+- Support more commonly used file types (PDF, PNG, JPEG)
