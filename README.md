@@ -57,3 +57,4 @@ https://www.youtube.com/watch?v=Jjp7u3_LPoo
 # Future Updates
 - Allow user to choose from multiple premade templates
 - Allow user to customize "Did you know?" tips
+- Add company logo/map image thumbnails for each saved card template
